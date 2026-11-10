@@ -2,6 +2,7 @@
 
 import colorsys
 import io
+import logging
 import math
 import os
 import random
@@ -17,6 +18,7 @@ TEXT_COLOR = (236, 228, 248)
 BASE = os.path.dirname(os.path.abspath(__file__))
 FONT_DIRS = [
     os.path.join(BASE, "fonts"),
+    BASE,  # на случай, если файлы шрифтов лежат рядом с cardart.py, без папки
     "/usr/share/fonts/truetype/dejavu",
     "/usr/share/fonts/dejavu",
     "/usr/share/fonts/TTF",
@@ -42,6 +44,8 @@ def _font(names, size):
             path = os.path.join(d, n)
             if os.path.exists(path):
                 return ImageFont.truetype(path, size)
+    logging.warning("Шрифт %s не найден: русский текст на картах будет квадратиками. "
+                    "Загрузите папку fonts с файлами .ttf в репозиторий.", names[0])
     return ImageFont.load_default(size)
 
 
